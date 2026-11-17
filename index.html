@@ -2,166 +2,52 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#090d13">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<meta name="color-scheme" content="dark">
 <title>Hotel on TV</title>
 <style>
-:root{color-scheme:dark;--fg:#f7f4ed;--muted:rgba(247,244,237,.7);--gold:#e8d1a8;--safe:4.7vw;--glass:rgba(13,18,24,.88)}
-*{box-sizing:border-box}
-html,body{width:100%;height:100%;margin:0;overflow:hidden}
-body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;background:#090d13;color:var(--fg);-webkit-font-smoothing:antialiased;font-feature-settings:"tnum"}
-button,input{font:inherit}button{color:inherit}
-#backdrop{position:fixed;inset:0;z-index:-5;background:#111b27 center/cover no-repeat}
-#backdrop:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,8,13,.72),rgba(4,8,13,.39) 52%,rgba(4,8,13,.19)),linear-gradient(0deg,rgba(3,6,10,.66),transparent 46%,rgba(3,6,10,.16))}
-#shade{position:fixed;inset:0;z-index:0;background:transparent;pointer-events:none;transition:background .35s}
-body.sleep #shade{background:rgba(0,0,0,.52)}
-#frame{position:fixed;inset:0;z-index:10;pointer-events:none}
-#frame svg{width:100%;height:100%;overflow:visible}
-#frame .track{fill:none;stroke:rgba(255,255,255,.28);stroke-width:1.45}
-#frame .hand-halo{fill:none;stroke:rgba(255,225,180,.23);stroke-width:10;stroke-linecap:round;stroke-dasharray:56 9999}
-#frame .hand{fill:none;stroke:#fff0cf;stroke-width:4.1;stroke-linecap:round;stroke-dasharray:56 9999}
-#layout{position:relative;z-index:1;height:100%;padding:4.5vh var(--safe) 3.7vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:1.8vh}
-.top{display:flex;align-items:center;justify-content:space-between;gap:24px;min-width:0}
-.brand{display:flex;align-items:center;gap:14px;min-width:0}
-.brand-mark{width:42px;height:42px;border:1px solid rgba(233,215,180,.65);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:Georgia,serif;font-size:21px;flex:none}
-.brand-copy{min-width:0}
-.brand-name{font-size:13px;letter-spacing:.3em;font-weight:650;white-space:nowrap}
-.brand-caption{font-size:10px;letter-spacing:.19em;color:var(--muted);margin-top:5px;white-space:nowrap}
-.time{text-align:right;flex:none}
-.time-main{font-size:clamp(43px,4.4vw,68px);font-weight:250;letter-spacing:.025em;line-height:1;white-space:nowrap}
-.time-date{font-size:13px;letter-spacing:.08em;color:var(--muted);margin-top:8px;white-space:nowrap}
-.middle{display:flex;align-items:center;min-height:0;width:100%}
-.welcome{width:100%;max-width:1500px;padding:0 0 1vh 1vw}
-.eyebrow{font-size:12px;letter-spacing:.27em;color:var(--gold);margin-bottom:22px;white-space:nowrap}
-.headline{white-space:nowrap;overflow:hidden;text-overflow:clip;font-family:"Hiragino Mincho ProN",YuMincho,"Noto Serif JP",serif;font-size:clamp(29px,4.1vw,66px);font-weight:400;letter-spacing:.035em;line-height:1.2;margin:0;text-shadow:0 3px 24px rgba(0,0,0,.3);max-width:100%}
-.subline{font-size:clamp(14px,1.25vw,18px);letter-spacing:.08em;color:rgba(247,244,237,.8);margin-top:20px;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rule{width:76px;height:1px;background:var(--gold);opacity:.9;margin-top:28px}
-.bottom{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:18px}
-.dock{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px;min-width:0;max-width:1500px}
-.app{width:100%;min-width:0;height:70px;border:1px solid rgba(255,255,255,.24);border-radius:17px;background:rgba(13,18,23,.48);display:flex;align-items:center;gap:9px;padding:0 11px;text-align:left;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.14);transition:background .15s,border-color .15s,transform .15s}
-.app:focus-visible,.app.focused,.utility:focus-visible,.utility.focused,.scene-choice:focus-visible,.panel-action:focus-visible,.close:focus-visible{outline:3px solid rgba(245,220,179,.96);outline-offset:3px;background:rgba(255,255,255,.2);transform:translateY(-2px)}
-.app-symbol{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:rgba(255,255,255,.14);font-size:17px;font-weight:750;flex:none}
-.app-name{font-size:12.5px;font-weight:650;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.utilities{display:flex;gap:10px;align-items:center;flex:none}
-.utility{width:56px;height:56px;border-radius:50%;border:1px solid rgba(255,255,255,.27);background:rgba(13,18,23,.78);display:grid;place-items:center;cursor:pointer;font-size:21px;color:rgba(255,255,255,.92)}
-#panel{position:fixed;z-index:30;right:3.4vw;top:50%;transform:translate(18px,-50%);width:min(610px,91vw);max-height:85vh;overflow:auto;padding:24px;border:1px solid rgba(255,255,255,.23);border-radius:25px;background:rgba(10,15,21,.95);box-shadow:0 22px 72px rgba(0,0,0,.48);opacity:0;visibility:hidden;transition:opacity .18s,transform .18s;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#ffffff35 transparent}
-#panel.open{opacity:1;visibility:visible;transform:translate(0,-50%)}
-.panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
-.panel-title{font-family:YuMincho,serif;font-size:25px;font-weight:400;letter-spacing:.07em;white-space:nowrap}
-.close{width:46px;height:46px;border-radius:50%;border:1px solid #ffffff3d;background:#ffffff16;font-size:23px;flex:none}
-.section-label{font-size:11px;letter-spacing:.2em;color:var(--gold);margin:20px 0 12px;white-space:nowrap}
-.scene-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
-.scene-choice{height:84px;min-width:0;border:1px solid #ffffff35;border-radius:14px;background-size:cover;background-position:center;text-align:left;padding:11px;display:flex;align-items:flex-end;font-size:13px;letter-spacing:.045em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;text-shadow:0 2px 8px #000;box-shadow:inset 0 -30px 25px -20px rgba(0,0,0,.62)}
-.scene-choice[aria-pressed=true]{border:2px solid var(--gold);box-shadow:inset 0 0 0 1px var(--gold),inset 0 -30px 25px -20px rgba(0,0,0,.62)}
-.setting-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid #ffffff20;font-size:13px;color:#eee;min-width:0}
-.setting-row>span,.setting-row>label{white-space:nowrap;flex:none}
-.setting-row input{width:59%;min-width:0;border:1px solid #ffffff3a;border-radius:10px;background:#ffffff14;color:white;padding:11px 12px;outline:none;font-size:13px}
-.setting-row input:focus{border-color:var(--gold)}
-.panel-action{width:100%;min-height:48px;margin-top:13px;border:1px solid #ffffff35;background:#ffffff15;border-radius:13px;padding:12px 14px;font-size:13px;letter-spacing:.05em;white-space:nowrap}
-.panel-note{font-size:11px;line-height:1.55;color:#ffffff90;margin-top:13px}
-#idle{position:fixed;inset:0;z-index:25;background:rgba(5,8,12,.96);display:grid;place-items:center;opacity:0;visibility:hidden;transition:opacity .7s}
-#idle.show{opacity:1;visibility:visible}
-#idle .idle-time{font-size:clamp(62px,9vw,128px);font-weight:200;letter-spacing:.035em;white-space:nowrap}
-#idle .idle-date{font-size:14px;letter-spacing:.12em;color:#bcb5a8;text-align:center;margin-top:18px;white-space:nowrap}
-#toast{position:fixed;z-index:50;left:50%;bottom:8vh;transform:translate(-50%,10px);padding:13px 22px;border-radius:30px;background:rgba(9,14,19,.94);border:1px solid #ffffff30;color:white;font-size:13px;white-space:nowrap;opacity:0;transition:opacity .16s,transform .16s;pointer-events:none}
-#toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:1400px){:root{--safe:4vw}#layout{padding-top:3.6vh;padding-bottom:3vh;gap:1.4vh}.bottom{grid-template-columns:1fr;gap:12px}.dock{grid-template-columns:repeat(4,minmax(0,1fr));max-width:none}.app{height:66px}.utilities{justify-content:flex-end}.utility{width:52px;height:52px}}
-@media(max-width:900px){.brand-mark{width:36px;height:36px}.brand-name{font-size:11px}.brand-caption{font-size:8px}.time-main{font-size:40px}.time-date{font-size:11px}.headline{font-size:clamp(25px,4vw,42px)}.scene-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.scene-choice{height:78px}}
-@media(max-height:650px){#layout{padding-top:2.7vh;padding-bottom:2.2vh}.brand-mark{width:34px;height:34px}.time-main{font-size:clamp(37px,4vw,56px)}.headline{font-size:clamp(27px,3.8vw,54px)}.app{height:61px}.utility{width:49px;height:49px}.scene-choice{height:70px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+:root{--bg:#101827;--fg:#fff;--muted:rgba(255,255,255,.7);--line:rgba(255,255,255,.16);--panel:rgba(9,16,29,.72);--accent:#d8b477;--shadow:0 22px 70px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#101827;color:var(--fg)}
+body{overflow-x:hidden}button,input{font:inherit}button{color:inherit}.app{min-height:100vh;position:relative;isolation:isolate;background-color:var(--bg);background-image:var(--wallpaper,linear-gradient(135deg,#152238,#0c111c));background-size:cover;background-position:center;transition:background-image .35s ease}.app:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.22) 45%,rgba(0,0,0,.62));pointer-events:none}.app:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 50% 25%,transparent 0,rgba(0,0,0,.28) 90%);pointer-events:none}
+.topbar{height:72px;padding:18px 5vw;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px;letter-spacing:.16em;font-size:12px;font-weight:700}.brand-mark{width:30px;height:30px;border:1px solid rgba(255,255,255,.65);border-radius:50%;display:grid;place-items:center;font-size:12px}.top-actions{display:flex;gap:8px}.icon-btn,.pill-btn{border:1px solid var(--line);background:rgba(0,0,0,.16);border-radius:999px;padding:8px 13px;cursor:pointer;transition:.2s ease;backdrop-filter:blur(8px)}.icon-btn{width:38px;height:38px;padding:0;font-size:17px}.icon-btn:hover,.pill-btn:hover,.icon-btn:focus-visible,.pill-btn:focus-visible{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.5);outline:none}
+.hero{width:min(1100px,90vw);margin:4vh auto 0;display:grid;grid-template-columns:1fr 310px;align-items:center;gap:8vw;min-height:48vh}.copy{max-width:620px}.eyebrow{color:var(--accent);font-size:12px;letter-spacing:.25em;text-transform:uppercase;margin:0 0 18px}.headline{font-size:clamp(36px,6vw,76px);line-height:1.05;margin:0 0 18px;letter-spacing:.02em;font-weight:400}.subtitle{font-size:clamp(14px,1.7vw,19px);line-height:1.9;color:var(--muted);margin:0;max-width:560px}.clock-wrap{display:grid;place-items:center}.clock{width:min(300px,64vw);aspect-ratio:1;border:1px solid rgba(255,255,255,.4);border-radius:50%;position:relative;background:rgba(9,16,29,.24);box-shadow:var(--shadow),inset 0 0 55px rgba(0,0,0,.2)}.clock:before{content:"";position:absolute;inset:8%;border:1px solid rgba(255,255,255,.12);border-radius:50%}.tick{position:absolute;left:50%;top:5%;height:7%;width:1px;background:rgba(255,255,255,.8);transform-origin:50% 100%;opacity:.85}.hand{position:absolute;left:50%;bottom:50%;transform-origin:50% 100%;border-radius:4px;transform:translateX(-50%) rotate(0deg)}.hour{height:25%;width:5px;background:#fff}.minute{height:35%;width:3px;background:#fff}.second{height:39%;width:1px;background:var(--accent)}.center{position:absolute;left:50%;top:50%;width:10px;height:10px;transform:translate(-50%,-50%);background:var(--accent);border-radius:50%;z-index:2}.clock-text{position:absolute;left:0;right:0;bottom:20%;text-align:center}.time{font-size:27px;letter-spacing:.1em}.date{font-size:11px;color:var(--muted);margin-top:5px}
+.bottom{width:min(1100px,90vw);margin:2vh auto 5vh;display:flex;justify-content:space-between;align-items:end;gap:20px}.hint{font-size:12px;color:var(--muted);line-height:1.7}.dock{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.dock button{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 13px;cursor:pointer;font-size:12px;transition:.2s}.dock button:hover,.dock button:focus-visible{transform:translateY(-2px);border-color:var(--accent);outline:none}.sleep{position:fixed;inset:0;z-index:10;background:#02040a;display:none;place-items:center;color:rgba(255,255,255,.7);letter-spacing:.2em;font-size:12px}.sleep.show{display:grid}
+.modal{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.panel{width:min(570px,100%);max-height:90vh;overflow:auto;background:#111b2c;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow)}.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.panel h2{font-size:19px;font-weight:500;margin:0}.close{border:0;background:transparent;color:var(--muted);font-size:24px;cursor:pointer}.form-row{margin:0 0 18px}.form-row label{display:block;font-size:12px;color:var(--muted);margin-bottom:8px}.form-row input{width:100%;border:1px solid var(--line);border-radius:9px;background:#0b1321;color:#fff;padding:11px 12px;outline:none}.form-row input:focus{border-color:var(--accent)}.wallpapers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.wallpaper{aspect-ratio:1.5;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--w);position:relative;overflow:hidden}.wallpaper.selected{outline:2px solid var(--accent);outline-offset:2px}.wallpaper span{position:absolute;left:5px;bottom:4px;font-size:9px;text-shadow:0 1px 3px #000}.panel-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:22px}.save{border:0;border-radius:9px;background:var(--accent);color:#17120b;padding:10px 18px;cursor:pointer}.secondary{border:1px solid var(--line);border-radius:9px;background:transparent;padding:10px 15px;cursor:pointer}.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#fff;color:#111;padding:10px 15px;border-radius:9px;font-size:12px;transition:.25s;z-index:40}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:760px){.topbar{height:62px;padding:14px 5vw}.hero{grid-template-columns:1fr;margin-top:4vh;gap:28px;text-align:center}.copy{margin:auto}.subtitle{margin:auto}.clock{width:min(240px,58vw)}.bottom{align-items:center;flex-direction:column;margin-top:4vh}.dock{justify-content:center}.hint{text-align:center}.wallpapers{grid-template-columns:repeat(4,1fr)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-<div id="backdrop"></div><div id="shade"></div>
-<div id="frame" aria-hidden="true"><svg viewBox="0 0 1000 562.5" preserveAspectRatio="none">
-<path class="track" d="M500 549 H970 Q987 549 987 532 V30 Q987 13 970 13 H30 Q13 13 13 30 V532 Q13 549 30 549 H500 Z"/>
-<path class="hand-halo" id="secondHalo" d="M500 549 H970 Q987 549 987 532 V30 Q987 13 970 13 H30 Q13 13 13 30 V532 Q13 549 30 549 H500 Z"/>
-<path class="hand" id="secondHand" d="M500 549 H970 Q987 549 987 532 V30 Q987 13 970 13 H30 Q13 13 13 30 V532 Q13 549 30 549 H500 Z"/>
-</svg></div>
-<div id="layout">
-<header class="top"><div class="brand"><div class="brand-mark">H</div><div class="brand-copy"><div class="brand-name">HOTEL ON TV</div><div class="brand-caption">A QUIETER KIND OF LUXURY</div></div></div><div class="time"><div class="time-main" id="clock">--:--</div><div class="time-date" id="date">----</div></div></header>
-<main class="middle"><section class="welcome"><div class="eyebrow" id="greeting">WELCOME HOME</div><h1 class="headline" id="headline">いつもの部屋に、上質なくつろぎを。</h1><div class="subline" id="subline">今日も一日、おつかれさまでした。</div><div class="rule"></div></section></main>
-<footer class="bottom"><nav class="dock" id="dock" aria-label="エンターテインメント"></nav><div class="utilities"><button class="utility" id="sceneButton" aria-label="壁紙" title="壁紙">◒</button><button class="utility" id="sleepButton" aria-label="おやすみモード" title="おやすみモード">☾</button><button class="utility" id="settingsButton" aria-label="設定" title="設定">⚙</button></div></footer>
-</div>
-<div id="panel" role="dialog" aria-modal="true" aria-label="設定"><div class="panel-head"><div class="panel-title" id="panelTitle">壁紙を選ぶ</div><button class="close" id="closePanel" aria-label="閉じる">×</button></div>
-<div id="sceneSettings"><div class="section-label">WALLPAPERS · 25 PRESETS</div><div class="scene-grid" id="sceneGrid"></div><div class="section-label">CUSTOM WALLPAPER</div><label class="setting-row"><span>画像URL</span><input id="wallUrl" type="url" placeholder="https://..." autocomplete="off"></label><button class="panel-action" id="applyWall">この画像を背景にする</button></div>
-<div id="generalSettings" hidden><div class="section-label">PERSONAL TOUCH</div><label class="setting-row"><span>メインメッセージ</span><input id="messageInput" maxlength="42" value="いつもの部屋に、上質なくつろぎを。"></label><label class="setting-row"><span>サブメッセージ</span><input id="subInput" maxlength="50" value="今日も一日、おつかれさまでした。"></label><div class="section-label">DISPLAY</div><label class="setting-row"><span>暗い画面に切り替えるまで（分）</span><input id="idleInput" type="number" min="0" max="240" value="0"></label><button class="panel-action" id="saveSettings">保存する</button><button class="panel-action" id="resetSettings">初期状態に戻す</button><div class="panel-note">操作がない状態が続くと時計だけの表示に切り替わります。0分で無効です。</div></div>
-</div>
-<div id="idle"><div><div class="idle-time" id="idleTime">00:00</div><div class="idle-date" id="idleDate"></div></div></div><div id="toast"></div>
+<main class="app" id="app">
+<header class="topbar"><div class="brand"><span class="brand-mark">H</span><span>HOTEL ON TV</span></div><div class="top-actions"><button class="icon-btn" id="settingsBtn" aria-label="設定">⚙</button><button class="pill-btn" id="sleepBtn">休止</button></div></header>
+<section class="hero"><div class="copy"><p class="eyebrow" id="eyebrow">WELCOME TO YOUR ROOM</p><h1 class="headline" id="headline">ゆっくりと、<br>お過ごしください。</h1><p class="subtitle" id="subtitle">今日という一日の余白を、あなたのために。テレビでもスマートフォンでも、心地よい時間をお楽しみください。</p></div><div class="clock-wrap"><div class="clock" id="clock" aria-label="現在時刻"><i class="tick" style="transform:translateX(-50%) rotate(0deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(30deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(60deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(90deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(120deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(150deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(180deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(210deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(240deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(270deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(300deg)"></i><i class="tick" style="transform:translateX(-50%) rotate(330deg)"></i><i class="hand hour" id="hourHand"></i><i class="hand minute" id="minuteHand"></i><i class="hand second" id="secondHand"></i><i class="center"></i><div class="clock-text"><div class="time" id="time">00:00</div><div class="date" id="date">----</div></div></div></div></section>
+<footer class="bottom"><div class="hint">ご滞在をお楽しみください。<br>画面をタップすると操作できます。</div><nav class="dock" aria-label="エンターテインメント"><button data-url="https://www.youtube.com/" type="button">YouTube</button><button data-url="https://www.netflix.com/" type="button">Netflix</button><button data-url="https://www.spotify.com/" type="button">Music</button><button id="wallpaperBtn" type="button">壁紙</button></nav></footer>
+</main>
+<div class="sleep" id="sleep" role="button" tabindex="0">画面をタップして再開</div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><section class="panel"><div class="panel-head"><h2 id="settingsTitle">お部屋の設定</h2><button class="close" id="closeBtn" aria-label="閉じる">×</button></div><div class="form-row"><label for="headlineInput">見出し</label><input id="headlineInput" type="text" maxlength="80"></div><div class="form-row"><label for="subtitleInput">サブタイトル</label><input id="subtitleInput" type="text" maxlength="160"></div><div class="form-row"><label for="customInput">カスタム壁紙URL（任意）</label><input id="customInput" type="url" inputmode="url" placeholder="https://example.com/image.jpg"></div><div class="form-row"><label>壁紙を選ぶ（25種類）</label><div class="wallpapers" id="wallpapers"></div></div><div class="panel-footer"><button class="secondary" id="resetBtn" type="button">初期設定に戻す</button><button class="save" id="saveBtn" type="button">保存する</button></div></section></div>
+<div class="toast" id="toast" role="status"></div>
 <script>
-(()=>{'use strict';
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const scenes=[
- {name:'都会の夜景',photo:'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1440&q=58',bg:'linear-gradient(135deg,#0c1728,#44566a 52%,#101a28)'},
- {name:'静かな海辺',photo:'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1440&q=58',bg:'linear-gradient(135deg,#0c2938,#548392 55%,#0c1b2a)'},
- {name:'森のリトリート',photo:'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1440&q=58',bg:'linear-gradient(135deg,#101f1a,#47664b 55%,#101b18)'},
- {name:'山の静寂',photo:'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1440&q=58',bg:'linear-gradient(135deg,#101b28,#667783 55%,#111b25)'},
- {name:'月夜',photo:'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1440&q=58',bg:'linear-gradient(135deg,#080d1c,#34405f 55%,#090d17)'},
- {name:'雪景色',photo:'https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=1440&q=58',bg:'linear-gradient(135deg,#263545,#8394a1 55%,#17232f)'},
- {name:'琥珀のラウンジ',bg:'radial-gradient(ellipse at 78% 20%,#a56b35 0%,transparent 42%),linear-gradient(125deg,#100e0d,#49301f 52%,#15100d)'},
- {name:'シャンパン',bg:'radial-gradient(ellipse at 20% 15%,#b49a70 0%,transparent 43%),linear-gradient(125deg,#28231e,#756448 53%,#211e1a)'},
- {name:'深夜のネイビー',bg:'radial-gradient(ellipse at 72% 22%,#344f75 0%,transparent 44%),linear-gradient(130deg,#070d1b,#182b43 56%,#080d17)'},
- {name:'翡翠の静寂',bg:'radial-gradient(ellipse at 75% 25%,#477b67 0%,transparent 45%),linear-gradient(130deg,#0b1715,#1e4538 55%,#0b1514)'},
- {name:'ローズウッド',bg:'radial-gradient(ellipse at 75% 20%,#86535a 0%,transparent 44%),linear-gradient(130deg,#1d1117,#48252d 56%,#170f14)'},
- {name:'モーヴの夕暮れ',bg:'radial-gradient(ellipse at 80% 18%,#9b718c 0%,transparent 44%),linear-gradient(130deg,#211725,#58415f 55%,#15121d)'},
- {name:'銀色の霧',bg:'radial-gradient(ellipse at 25% 18%,#9ca9b2 0%,transparent 45%),linear-gradient(130deg,#202a33,#64727a 55%,#1b242d)'},
- {name:'砂漠の夕陽',bg:'radial-gradient(ellipse at 76% 20%,#c28b54 0%,transparent 44%),linear-gradient(130deg,#241914,#76513a 55%,#211612)'},
- {name:'オーロラ',bg:'radial-gradient(ellipse at 72% 25%,#3b9b88 0%,transparent 38%),radial-gradient(ellipse at 25% 70%,#4a477f 0%,transparent 42%),linear-gradient(130deg,#07111c,#17263a 60%,#090f19)'},
- {name:'深海',bg:'radial-gradient(ellipse at 66% 22%,#176b80 0%,transparent 44%),linear-gradient(130deg,#06151d,#123c4a 55%,#06121b)'},
- {name:'星空',bg:'radial-gradient(ellipse at 76% 22%,#4b5279 0%,transparent 38%),radial-gradient(ellipse at 20% 75%,#343c65 0%,transparent 44%),linear-gradient(130deg,#080b18,#1b203a 58%,#080b16)'},
- {name:'白磁',bg:'radial-gradient(ellipse at 75% 20%,#a7afb3 0%,transparent 44%),linear-gradient(130deg,#323b40,#78878b 55%,#252f34)'},
- {name:'桜霞',bg:'radial-gradient(ellipse at 72% 18%,#b77e88 0%,transparent 44%),linear-gradient(130deg,#2a1b26,#754b5b 56%,#211722)'},
- {name:'アメジスト',bg:'radial-gradient(ellipse at 75% 20%,#795f9b 0%,transparent 44%),linear-gradient(130deg,#171326,#403052 55%,#12101d)'},
- {name:'ブロンズ',bg:'radial-gradient(ellipse at 76% 20%,#a87842 0%,transparent 44%),linear-gradient(130deg,#1c1712,#59432d 55%,#17130f)'},
- {name:'ワインレッド',bg:'radial-gradient(ellipse at 75% 20%,#8b3f4d 0%,transparent 43%),linear-gradient(130deg,#1c1017,#4c202d 55%,#180d13)'},
- {name:'セージ',bg:'radial-gradient(ellipse at 75% 20%,#809178 0%,transparent 44%),linear-gradient(130deg,#20271f,#475847 55%,#151e19)'},
- {name:'ミッドナイト',bg:'radial-gradient(ellipse at 75% 20%,#505c6b 0%,transparent 43%),linear-gradient(130deg,#080c12,#293440 55%,#080b10)'},
- {name:'朝焼け',bg:'radial-gradient(ellipse at 78% 18%,#c78b67 0%,transparent 45%),linear-gradient(130deg,#34232a,#875c5a 56%,#1e202b)'}
+(function(){'use strict';
+var KEY='hotel-on-tv-v2', defaults={headline:'ゆっくりと、\nお過ごしください。',subtitle:'今日という一日の余白を、あなたのために。テレビでもスマートフォンでも、心地よい時間をお楽しみください。',wallpaper:0,custom:''};
+var wallpapers=[
+['Twilight','linear-gradient(135deg,#1d1234,#4d1d45 48%,#f19a67)'],['Ocean','linear-gradient(135deg,#071b37,#075985 50%,#5eead4)'],['Forest','linear-gradient(135deg,#0c241b,#14532d 50%,#84cc16)'],['Sand','linear-gradient(135deg,#6b4932,#c58b61 52%,#f1d7a7)'],['Midnight','linear-gradient(135deg,#020617,#111827 50%,#312e81)'],['Aurora','linear-gradient(135deg,#102a43,#146c78 45%,#a855f7)'],['Rose','linear-gradient(135deg,#3b102b,#9f3457 55%,#fda4af)'],['Cloud','linear-gradient(135deg,#526477,#a8c0d4 55%,#f1f5f9)'],['Cedar','linear-gradient(135deg,#26140e,#713f12 55%,#d97706)'],['Sakura','linear-gradient(135deg,#3b1d32,#a75570 50%,#fbcfe8)'],['Rain','linear-gradient(135deg,#17202c,#34495e 50%,#8da9c4)'],['Lounge','linear-gradient(135deg,#211b16,#4a3522 50%,#b47b47)'],['Lakeside','linear-gradient(135deg,#082f49,#0369a1 50%,#bae6fd)'],['Moss','linear-gradient(135deg,#172b1b,#365314 50%,#a3a34b)'],['Velvet','linear-gradient(135deg,#190b19,#581c35 50%,#c0266e)'],['Dawn','linear-gradient(135deg,#7c2d12,#f97316 50%,#fde68a)'],['Alpine','linear-gradient(135deg,#172554,#1d4ed8 50%,#bfdbfe)'],['Ink','linear-gradient(135deg,#030712,#111827 50%,#374151)'],['Cobalt','linear-gradient(135deg,#0c1e4b,#1e40af 50%,#38bdf8)'],['Lavender','linear-gradient(135deg,#312e81,#7c3aed 50%,#ddd6fe)'],['Ember','linear-gradient(135deg,#29120b,#9a3412 50%,#facc15)'],['Tea','linear-gradient(135deg,#292117,#695d46 50%,#d6b98c)'],['Tide','linear-gradient(135deg,#042f2e,#0f766e 50%,#99f6e4)'],['Charcoal','linear-gradient(135deg,#111,#292524 50%,#78716c)'],['Pearl','linear-gradient(135deg,#334155,#94a3b8 50%,#f8fafc)']
 ];
-const apps=[
- {name:'Prime Video',symbol:'▶',url:'https://www.primevideo.com'},
- {name:'YouTube',symbol:'▶',url:'https://www.youtube.com/tv'},
- {name:'Netflix',symbol:'N',url:'https://www.netflix.com'},
- {name:'TVer',symbol:'T',url:'https://tver.jp'},
- {name:'ABEMA',symbol:'A',url:'https://abema.tv'},
- {name:'Disney+',symbol:'D+',url:'https://www.disneyplus.com'},
- {name:'Spotify',symbol:'♫',url:'https://open.spotify.com'},
- {name:'Apple TV+',symbol:'TV',url:'https://tv.apple.com'}
-];
-const defaults={scene:0,wallUrl:'',message:'いつもの部屋に、上質なくつろぎを。',sub:'今日も一日、おつかれさまでした。',idle:0,sleep:false};
-function read(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
-let state={...defaults,...read('hotv_atmosphere',{})};
-const oneLine=v=>String(v??'').replace(/[\r\n]+/g,' ').replace(/\s{2,}/g,' ').trim();
-state.message=oneLine(state.message)||defaults.message;state.sub=oneLine(state.sub);state.scene=Math.max(0,Math.min(scenes.length-1,Number(state.scene)||0));
-let lastInput=Date.now(),focusables=[],focusIndex=0,scenesRendered=false,lastClockMinute=-1,handLength=0,panelReturnFocus=null;
-const hand=$('#secondHand'),halo=$('#secondHalo');
-function save(){try{localStorage.setItem('hotv_atmosphere',JSON.stringify(state));return true}catch(e){return false}}
-function toast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2100)}
-function updateSceneSelection(){ $$('.scene-choice').forEach((b,i)=>b.setAttribute('aria-pressed',String(!state.wallUrl&&state.scene===i))) }
-function setScene(i){state.scene=Math.max(0,Math.min(scenes.length-1,Number(i)||0));state.wallUrl='';const s=scenes[state.scene];$('#backdrop').style.backgroundImage=s.photo?`url("${s.photo}"),${s.bg}`:s.bg;save();updateSceneSelection()}
-function setCustomWall(url){state.wallUrl=url;$('#backdrop').style.backgroundImage=`url("${url}"),linear-gradient(130deg,#101b2a,#394b5c)`;save();updateSceneSelection()}
-function renderScenes(){if(scenesRendered)return;scenesRendered=true;const g=$('#sceneGrid');const frag=document.createDocumentFragment();scenes.forEach((s,i)=>{const b=document.createElement('button');b.className='scene-choice';b.type='button';b.textContent=s.name;b.title=s.name;b.style.backgroundImage=`linear-gradient(0deg,rgba(0,0,0,.52),rgba(0,0,0,.05)),${s.bg}`;b.setAttribute('aria-pressed',String(!state.wallUrl&&state.scene===i));b.addEventListener('click',()=>{setScene(i);toast(`${s.name}に変更しました`);});frag.append(b)});g.append(frag)}
-function renderApps(){const d=$('#dock'),frag=document.createDocumentFragment();apps.forEach(a=>{const b=document.createElement('button');b.className='app';b.type='button';b.title=a.name;b.setAttribute('aria-label',a.name);const icon=document.createElement('span');icon.className='app-symbol';icon.textContent=a.symbol;const label=document.createElement('span');label.className='app-name';label.textContent=a.name;b.append(icon,label);b.addEventListener('click',()=>{activity();try{window.open(a.url,'_blank','noopener')}catch(e){location.href=a.url}});frag.append(b)});d.append(frag)}
-function greeting(d){const h=d.getHours();if(h<5)return ['GOOD NIGHT','夜の静けさを、ゆっくりと。'];if(h<11)return ['GOOD MORNING','穏やかな一日のはじまりに。'];if(h<17)return ['GOOD AFTERNOON','ひと息ついて、心地よい時間を。'];if(h<22)return ['GOOD EVENING','今日も一日、おつかれさまでした。'];return ['GOOD NIGHT','夜の静けさを、ゆっくりと。']}
-function fitHeadline(){const el=$('#headline');el.style.fontSize='';const base=parseFloat(getComputedStyle(el).fontSize)||48;const available=el.clientWidth;const actual=el.scrollWidth;if(actual>available&&available>0)el.style.fontSize=Math.max(20,base*(available/actual)*.98)+'px'}
-function updateClockText(d){const time=d.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',hour12:false});const date=d.toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'long'});$('#clock').textContent=time;$('#date').textContent=date;$('#idleTime').textContent=time;$('#idleDate').textContent=date;if(!state.sub)$('#subline').textContent=greeting(d)[1]}
-function updateHand(d){if(!handLength)handLength=hand.getTotalLength();const seconds=d.getSeconds()+d.getMilliseconds()/1000;const offset=-(handLength*seconds/60);const segment=56;const pattern=`${segment} ${Math.max(.01,handLength-segment)}`;hand.style.strokeDasharray=pattern;halo.style.strokeDasharray=pattern;hand.style.strokeDashoffset=String(offset);halo.style.strokeDashoffset=String(offset)}
-function animate(){const d=new Date();const minute=d.getHours()*60+d.getMinutes();if(minute!==lastClockMinute){lastClockMinute=minute;updateClockText(d)}updateHand(d)}
-function openPanel(which){panelReturnFocus=which==='scene'?$('#sceneButton'):$('#settingsButton');if(which==='scene'){renderScenes();updateSceneSelection()}$('#panel').classList.add('open');$('#sceneSettings').hidden=which!=='scene';$('#generalSettings').hidden=which!=='settings';$('#panelTitle').textContent=which==='scene'?'壁紙を選ぶ':'表示設定';refreshFocus();const first=which==='scene'?($$('.scene-choice')[state.scene]||$('#closePanel')):$('#messageInput');const index=focusables.indexOf(first);focusIndex=index>=0?index:0;refreshFocus();if(focusables[focusIndex])focusables[focusIndex].scrollIntoView({block:'nearest'})}
-function closePanel(){$('#panel').classList.remove('open');refreshFocus();const index=focusables.indexOf(panelReturnFocus);focusIndex=index>=0?index:0;refreshFocus()}
-function refreshFocus(){focusables=$$('button:not(:disabled),input').filter(e=>e.offsetParent!==null&&!e.closest('[hidden]'));focusables.forEach((e,i)=>e.classList.toggle('focused',i===focusIndex));if(focusIndex>=focusables.length)focusIndex=0}
-function moveFocus(key){refreshFocus();const cur=focusables[focusIndex];if(!cur)return;const r=cur.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;const cand=focusables.map((el,i)=>{const q=el.getBoundingClientRect();return{el,i,x:q.left+q.width/2,y:q.top+q.height/2}}).filter(o=>o.el!==cur&&(key==='ArrowRight'?o.x>cx+2:key==='ArrowLeft'?o.x<cx-2:key==='ArrowDown'?o.y>cy+2:o.y<cy-2));cand.sort((a,b)=>{const score=o=>Math.hypot(o.x-cx,o.y-cy)+(key==='ArrowRight'||key==='ArrowLeft'?Math.abs(o.y-cy)*1.6:Math.abs(o.x-cx)*1.6);return score(a)-score(b)});if(cand[0]){focusIndex=cand[0].i;refreshFocus();focusables[focusIndex].scrollIntoView({block:'nearest',inline:'nearest'})}}
-function activity(){$('#idle').classList.remove('show');lastInput=Date.now()}
-document.addEventListener('pointerdown',activity,{passive:true});
-document.addEventListener('keydown',e=>{activity();if(e.key==='Escape'||e.key==='Backspace'||e.key==='BrowserBack'||e.keyCode===10009){if($('#panel').classList.contains('open'))closePanel();else if(state.sleep){state.sleep=false;document.body.classList.remove('sleep');save()}e.preventDefault();return}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();moveFocus(e.key)}else if(e.key==='Enter'){const el=focusables[focusIndex];if(el)el.click();e.preventDefault()}});
-$('#sceneButton').addEventListener('click',()=>openPanel('scene'));$('#settingsButton').addEventListener('click',()=>openPanel('settings'));$('#closePanel').addEventListener('click',closePanel);
-$('#sleepButton').addEventListener('click',()=>{state.sleep=!state.sleep;document.body.classList.toggle('sleep',state.sleep);$('#sleepButton').textContent=state.sleep?'☼':'☾';save();toast(state.sleep?'おやすみモード':'通常表示')});
-$('#applyWall').addEventListener('click',()=>{const u=$('#wallUrl').value.trim();try{const url=new URL(u);if(!/^https?:$/.test(url.protocol))throw Error();const im=new Image();im.onload=()=>{setCustomWall(u);toast('壁紙を変更しました')};im.onerror=()=>toast('画像を読み込めませんでした');im.src=u}catch(e){toast('画像URLを確認してください')}});
-$('#saveSettings').addEventListener('click',()=>{state.message=oneLine($('#messageInput').value)||defaults.message;state.sub=oneLine($('#subInput').value);const idle=Number($('#idleInput').value);state.idle=Math.max(0,Math.min(240,Number.isFinite(idle)?idle:0));$('#headline').textContent=state.message;$('#subline').textContent=state.sub||greeting(new Date())[1];fitHeadline();const persisted=save();closePanel();toast(persisted?'設定を保存しました':'この環境では設定を保存できません')});
-$('#resetSettings').addEventListener('click',()=>{state={...defaults};$('#messageInput').value=state.message;$('#subInput').value=state.sub;$('#idleInput').value=state.idle;$('#headline').textContent=state.message;$('#subline').textContent=state.sub;fitHeadline();setScene(0);document.body.classList.remove('sleep');$('#sleepButton').textContent='☾';const persisted=save();toast(persisted?'初期状態に戻しました':'初期状態に戻しました（保存は利用できません）')});
-function init(){renderApps();$('#messageInput').value=state.message;$('#subInput').value=state.sub;$('#idleInput').value=state.idle;$('#headline').textContent=state.message;$('#subline').textContent=state.sub||greeting(new Date())[1];if(state.wallUrl){$('#backdrop').style.backgroundImage=`url("${state.wallUrl}"),linear-gradient(130deg,#101b2a,#394b5c)`;$('#wallUrl').value=state.wallUrl}else setScene(state.scene);document.body.classList.toggle('sleep',!!state.sleep);$('#sleepButton').textContent=state.sleep?'☼':'☾';updateClockText(new Date());fitHeadline();setInterval(animate,50);setInterval(()=>{if(state.idle>0&&Date.now()-lastInput>state.idle*60000&&!$('#panel').classList.contains('open'))$('#idle').classList.add('show')},15000);setTimeout(refreshFocus,250)}
-window.addEventListener('resize',fitHeadline,{passive:true});init();
+var $=function(id){return document.getElementById(id)}, state=load(), timer=0, idleTimer=0, lastMinute=-1;
+function load(){try{var raw=localStorage.getItem(KEY);if(raw){var x=JSON.parse(raw);return {headline:typeof x.headline==='string'?x.headline:defaults.headline,subtitle:typeof x.subtitle==='string'?x.subtitle:defaults.subtitle,wallpaper:Number.isInteger(x.wallpaper)&&x.wallpaper>=0&&x.wallpaper<wallpapers.length?x.wallpaper:0,custom:typeof x.custom==='string'?x.custom:''};}}catch(e){}return {headline:defaults.headline,subtitle:defaults.subtitle,wallpaper:0,custom:''}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function renderText(){$('headline').innerHTML=escapeHTML(state.headline).replace(/\n/g,'<br>');$('subtitle').textContent=state.subtitle}
+function escapeHTML(s){return s.replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function applyWallpaper(){var bg=state.custom?'url("'+state.custom.replace(/"/g,'%22')+'")':wallpapers[state.wallpaper][1];$('app').style.setProperty('--wallpaper',bg);document.querySelectorAll('.wallpaper').forEach(function(el,i){el.className='wallpaper'+(i===state.wallpaper&&!state.custom?' selected':'')})}
+function updateClock(){var d=new Date(),sec=d.getSeconds()+d.getMilliseconds()/1000,min=d.getMinutes()+sec/60,hr=(d.getHours()%12)+min/60;$('secondHand').style.transform='translateX(-50%) rotate('+(sec*6)+'deg)';$('minuteHand').style.transform='translateX(-50%) rotate('+(min*6)+'deg)';$('hourHand').style.transform='translateX(-50%) rotate('+(hr*30)+'deg)';if(d.getMinutes()!==lastMinute){lastMinute=d.getMinutes();$('time').textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);$('date').textContent=d.toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'short'})}}
+function scheduleClock(){updateClock();var now=Date.now(),delay=1000-(now%1000)+8;timer=setTimeout(scheduleClock,delay)}
+function showToast(msg){var t=$('toast');t.textContent=msg;t.className='toast show';clearTimeout(showToast.t);showToast.t=setTimeout(function(){t.className='toast'},2200)}
+function openModal(){ $('headlineInput').value=state.headline;$('subtitleInput').value=state.subtitle;$('customInput').value=state.custom;$('modal').className='modal open';$('headlineInput').focus() }
+function closeModal(){$('modal').className='modal'}
+function resetIdle(){clearTimeout(idleTimer);idleTimer=setTimeout(function(){$('sleep').className='sleep show'},15*60*1000)}
+function validateCustom(value,done){if(!value){done('');return}try{var u=new URL(value);if(u.protocol!=='http:'&&u.protocol!=='https:')throw Error();var img=new Image();img.onload=function(){done(value)};img.onerror=function(){done(null)};img.src=value}catch(e){done(null)}}
+function initWallpapers(){var box=$('wallpapers');wallpapers.forEach(function(w,i){var b=document.createElement('button');b.type='button';b.className='wallpaper';b.style.setProperty('--w',w[1]);b.innerHTML='<span>'+w[0]+'</span>';b.addEventListener('click',function(){state.wallpaper=i;state.custom='';applyWallpaper()});box.appendChild(b)})}
+$('settingsBtn').addEventListener('click',openModal);$('wallpaperBtn').addEventListener('click',openModal);$('closeBtn').addEventListener('click',closeModal);$('modal').addEventListener('click',function(e){if(e.target===$('modal'))closeModal()});$('saveBtn').addEventListener('click',function(){var c=$('customInput').value.trim();validateCustom(c,function(result){if(result===null){showToast('壁紙URLを読み込めませんでした');return}state.headline=$('headlineInput').value.trim()||defaults.headline;state.subtitle=$('subtitleInput').value.trim()||defaults.subtitle;state.custom=result;renderText();applyWallpaper();save();closeModal();showToast('設定を保存しました')})});$('resetBtn').addEventListener('click',function(){state={headline:defaults.headline,subtitle:defaults.subtitle,wallpaper:0,custom:''};renderText();applyWallpaper();save();showToast('初期設定に戻しました')});$('sleepBtn').addEventListener('click',function(){$('sleep').className='sleep show'});$('sleep').addEventListener('click',function(){$('sleep').className='sleep';resetIdle()});$('sleep').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();$('sleep').className='sleep';resetIdle()}});document.querySelectorAll('[data-url]').forEach(function(b){b.addEventListener('click',function(){window.open(b.getAttribute('data-url'),'_blank','noopener,noreferrer')})});['click','keydown','touchstart','mousemove'].forEach(function(ev){document.addEventListener(ev,resetIdle,{passive:true})});initWallpapers();renderText();applyWallpaper();scheduleClock();resetIdle();
 })();
 </script>
-</body>
-</html>
+</body></html>
